@@ -9,18 +9,21 @@ import java.util.List;
 
  */
 public class Dictionary {
-    // ファイルパス … カレントディレクトリにあるファイル
-    final static String INPUT_FILE_PATH = "dictionary.txt";
 
+    private final String filePath;
+    private final Integer lineNum;
     // 単語を保持しておくArray
-    private List<String> wordsArray;
+    private final List<String> wordsArray;
 
     /**
       constructor
      */
-    public Dictionary() {
+    public Dictionary(String filePath, Integer lineNum) {
         // arrayの初期化
-        wordsArray = new ArrayList<String>();
+        this.wordsArray = new ArrayList<String>();
+        this.filePath = filePath;
+        this.lineNum = lineNum;
+        this.inputFromFile(filePath);
     }
 
     /**
@@ -44,7 +47,7 @@ public class Dictionary {
      入力関数 
      @param filePath ファイルのパス
      */
-    public void inputFromFile(String filePath) {
+    private void inputFromFile(String filePath) {
         // Fileオブジェクト作成
         File inputFile = new File(filePath );
 
@@ -68,13 +71,29 @@ public class Dictionary {
     }
 
     /**
+     * プログラム実行時の引数から、ユーザーが指定した値「ファイルパス」を取得
+     * @param args プログラム実行時引数
+     */
+    public static String getFilepath(String[] args){
+        return args[0];
+    }
+
+    /**
+     * プログラム実行時の引数からユーザーが指定した値を取得
+     * @param args プログラム実行時引数
+     */
+    public static Integer getLineNo(String[] args){
+        return Integer.valueOf(args[1]);
+    }
+
+    /**
       main関数
      */
     public static void main(String[] args) {
+        String filepath = getFilepath(args);
+        Integer lineNo = getLineNo(args);
         // インスタンス作成
-        Dictionary dictionary = new Dictionary();
-        // ファイルから入力
-        dictionary.inputFromFile(INPUT_FILE_PATH);
+        Dictionary dictionary = new Dictionary(filepath, lineNo);
         // 出力
         dictionary.output();
     }
